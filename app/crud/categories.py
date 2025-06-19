@@ -1,15 +1,14 @@
-from sqlalchemy.orm import Session
-from app.models.category import Category
 from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
+
+from app.models.category import Category
 from app.schemas.pydantic import CategoryIn
 
 
 # Create a new category
 def create_category(db: Session, owner_id: int, category_in: CategoryIn):
     category = Category(
-        name=category_in.name,
-        parent_id=category_in.parent_id,
-        owner_id=owner_id
+        name=category_in.name, parent_id=category_in.parent_id, owner_id=owner_id
     )
     db.add(category)
     db.commit()
@@ -24,9 +23,15 @@ def get_categories_by_user(db: Session, user_id: int):
 
 # ✅ Get a single category by ID
 def get_category(db: Session, category_id: int, user_id: int):
-    category = db.query(Category).filter(Category.id == category_id, Category.owner_id == user_id).first()
+    category = (
+        db.query(Category)
+        .filter(Category.id == category_id, Category.owner_id == user_id)
+        .first()
+    )
     if not category:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Category not found"
+        )
     return category
 
 

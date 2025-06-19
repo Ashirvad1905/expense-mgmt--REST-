@@ -1,7 +1,9 @@
 # app/models/budget.py
-from sqlalchemy import Column, Integer, Float, String, ForeignKey
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+
 from app.db.session import Base
+
 
 class Budget(Base):
     __tablename__ = "budgets"

@@ -1,7 +1,9 @@
 # app/models/category.py
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+
 from app.db.session import Base
+
 
 class Category(Base):
     __tablename__ = "categories"

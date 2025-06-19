@@ -1,10 +1,13 @@
 # app/models/expense.py
 
-from sqlalchemy import Column, Integer, Float, String, Boolean, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 
+from sqlalchemy import (Boolean, Column, DateTime, Float, ForeignKey, Integer,
+                        String)
+from sqlalchemy.orm import relationship
+
 from app.db.session import Base
+
 
 class Expense(Base):
     __tablename__ = "expenses"
@@ -24,7 +27,11 @@ class Expense(Base):
     date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    updated_at = Column(
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
 
     user = relationship("User", back_populates="expenses")
     category = relationship("Category", back_populates="expenses")

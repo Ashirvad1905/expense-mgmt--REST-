@@ -1,7 +1,10 @@
+from datetime import datetime, timezone
+
 from sqlalchemy.orm import Session
+
 from app.models.expense import Expense
 from app.schemas.pydantic import ExpenseIn
-from datetime import datetime, timezone
+
 
 def create_expense(db: Session, user_id: int, data: ExpenseIn):
     expense = Expense(
@@ -11,7 +14,7 @@ def create_expense(db: Session, user_id: int, data: ExpenseIn):
         date=data.date or datetime.now(timezone.utc),  # ✅ timezone-aware
         category_id=data.category_id,
         user_id=user_id,  # ✅ FIXED: 'user_id', not 'owner_id'
-        is_recurring=data.is_recurring
+        is_recurring=data.is_recurring,
     )
     db.add(expense)
     db.commit()
@@ -24,10 +27,11 @@ def get_expenses_by_user(db: Session, user_id: int):
 
 
 def get_expense_by_id(db: Session, expense_id: int, user_id: int):
-    return db.query(Expense).filter(
-        Expense.id == expense_id,
-        Expense.user_id == user_id  # ✅ 'user_id'
-    ).first()
+    return (
+        db.query(Expense)
+        .filter(Expense.id == expense_id, Expense.user_id == user_id)  # ✅ 'user_id'
+        .first()
+    )
 
 
 def update_expense(db: Session, expense_id: int, user_id: int, data: ExpenseIn):

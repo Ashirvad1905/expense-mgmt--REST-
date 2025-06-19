@@ -1,14 +1,12 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
-from app.db.session import Base  # ✅ import your Base
-from app.models import role,expense, user, category, budget  # ✅ import all models
-from app.core.settings import settings
-from sqlalchemy import create_engine
-
-from sqlalchemy import pool
+from sqlalchemy import create_engine, engine_from_config, pool
 
 from alembic import context
+from app.core.settings import settings
+from app.db.session import Base  # ✅ import your Base
+from app.models import (budget, category, expense, role,  # ✅ import all models
+                        user)
 
 connectable = create_engine(
     settings.DATABASE_URL,
@@ -75,9 +73,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

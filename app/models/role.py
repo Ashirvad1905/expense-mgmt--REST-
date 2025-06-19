@@ -1,13 +1,17 @@
 # app/models/role.py
-from sqlalchemy import Column, Integer, Enum
-from sqlalchemy.orm import relationship
-from app.db.session import Base
 import enum
+
+from sqlalchemy import Column, Enum, Integer
+from sqlalchemy.orm import relationship
+
+from app.db.session import Base
+
 
 class RoleEnum(str, enum.Enum):
     admin = "admin"
     manager = "manager"
     user = "user"
+
 
 class Role(Base):
     __tablename__ = "roles"

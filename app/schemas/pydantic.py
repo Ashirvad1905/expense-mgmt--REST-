@@ -1,6 +1,8 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List, ForwardRef
 from datetime import datetime
+from typing import ForwardRef, List, Optional
+
+from pydantic import BaseModel, EmailStr
+
 
 # token for jwt
 class Token(BaseModel):
@@ -8,13 +10,13 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
-
 # token for user
 class UserCreate(BaseModel):
     name: str
     email: EmailStr
     password: str
-    role:Optional[str]='user'
+    role: Optional[str] = "user"
+
 
 class UserOut(BaseModel):
     id: int
@@ -26,13 +28,14 @@ class UserOut(BaseModel):
         from_attributes = True
 
 
-
 # category schema
 class CategoryIn(BaseModel):
     name: str
     parent_id: Optional[int]
 
+
 CategoryOut = ForwardRef("CategoryOut")
+
 
 class CategoryOut(BaseModel):
     id: int
@@ -44,15 +47,15 @@ class CategoryOut(BaseModel):
         from_attributes = True
 
 
-
 # expense schema
 class ExpenseIn(BaseModel):
-    name:str
+    name: str
     category_id: int
     amount: float
     description: Optional[str]
     is_recurring: bool = False
-    date:Optional[datetime]
+    date: Optional[datetime]
+
 
 class ExpenseOut(BaseModel):
     name: str
@@ -68,13 +71,12 @@ class ExpenseOut(BaseModel):
         from_attributes = True
 
 
-
-
 # budget schema
 class BudgetIn(BaseModel):
     category_id: int
     amount_limit: float
     time_period: str  # e.g. "2025-06"
+
 
 class BudgetOut(BaseModel):
     id: int
@@ -84,7 +86,6 @@ class BudgetOut(BaseModel):
 
     class Config:
         from_attributes = True
-
 
 
 # category out

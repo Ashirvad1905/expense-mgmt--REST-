@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from app.db.session import Base, engine
-from app.models import user, role, category, expense, budget
+
 from app.api.routes import router as api_router
+from app.db.session import Base, SessionLocal, engine
+from app.models import budget, category, expense, role, user
 from app.models.role import Role, RoleEnum
-from app.db.session import SessionLocal
 
 app = FastAPI()
 
@@ -17,6 +17,7 @@ db.commit()
 db.close()
 
 app.include_router(api_router)
+
 
 @app.get("/")
 def read_root():
